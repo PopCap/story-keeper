@@ -1,4 +1,4 @@
-public class SessionNote
+public class SessionNote : ITable
 {
 
 	public int id { get; set; }
@@ -9,8 +9,20 @@ public class SessionNote
 
 	public string timeStamp { get; set; }
 
-	public override string ToString()
+	public string CreateTable()
 	{
-		return string.Format("[Session Note: id={0}, sess_id={1},  note={2}, time_stamp={3}]", id, sessionId, note, timeStamp);
-	}
+		return "CREATE TABLE IF NOT EXISTS session_note (" +
+			   "id INT PRIMARY KEY ASC," +
+			   "sess_id INT," +
+			   "note TEXT," +
+			   "timestamp CURRENT_TIMESTAMP" +
+			   "FOREIGN KEY(sess_id) REFERENCES session(id)" +
+			   ");";
+    }
+
+	public override string ToString()
+		{
+			return string.Format("[Session Note: id={0}, sess_id={1},  note={2}, time_stamp={3}]", id, sessionId, note, timeStamp);
+		}
+
 }

@@ -18,8 +18,6 @@ public class DatabaseHandler
     public DatabaseHandler()
     {
         databasePath = "Data Source=" + Application.persistentDataPath + "/StoryKeeper.sqlite";
-        Debug.Log(databasePath);
-        /*databasePath = "URI=file" + Application.streamingAssetsPath + "/StoryKeeper.sqlite";*/
 
         try
         {
@@ -51,6 +49,9 @@ public class DatabaseHandler
     {
         schemas = new List<ITable>();
         schemas.Add(new Campaign());
+        schemas.Add(new Session());
+        schemas.Add(new SessionNote());
+        schemas.Add(new Tag());
     }
 
 }

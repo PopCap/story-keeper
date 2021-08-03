@@ -1,11 +1,21 @@
 
-public class Session
+public class Session : ITable
 {
 	public int id { get; set; }
 
 	public int campId { get; set; }
 
 	public string sessionDate { get; set; }
+
+	public string CreateTable()
+	{
+		return "CREATE TABLE IF NOT EXISTS session (" +
+			   "id INT PRIMARY KEY ASC," +
+			   "camp_id INT," +
+			   "session_date CURRENT_DATE," +
+			   "FOREIGN KEY(camp_id) REFERENCES campaign(id)" +
+			   ");";
+	}
 
 	public override string ToString()
 	{
