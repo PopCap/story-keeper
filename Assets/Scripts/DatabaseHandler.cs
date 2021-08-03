@@ -17,11 +17,13 @@ public class DatabaseHandler
 
     public DatabaseHandler()
     {
-        databasePath = "data source =" +Application.streamingAssetsPath + "/StoryKeeper.sqlite";
+        databasePath = "Data Source=" + Application.persistentDataPath + "/StoryKeeper.sqlite";
+        Debug.Log(databasePath);
+        /*databasePath = "URI=file" + Application.streamingAssetsPath + "/StoryKeeper.sqlite";*/
 
         try
         {
-            db = new SqliteConnection("databasePath");
+            db = new SqliteConnection(databasePath);
             db.Open();
         } catch (System.Exception exc)
         {
