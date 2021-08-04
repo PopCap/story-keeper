@@ -6,4 +6,5 @@ public interface ITable
 {
     // should be implemented as static
     string CreateTable();
+    string InsertRow(List<string> values);
 }

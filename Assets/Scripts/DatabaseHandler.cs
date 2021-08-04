@@ -14,6 +14,17 @@ public class DatabaseHandler
     private SqliteCommand command;
     private string databasePath;
 
+    /**
+     * Make sure order of Table enum fields same as order of Concrete ITable Implementations
+     * added to the schemas list.
+     */
+    enum Table
+    {
+        CAMPAIGN,
+        SESSION,
+        SESSION_NOTE,
+        TAG
+    }
 
     public DatabaseHandler()
     {
@@ -30,19 +41,26 @@ public class DatabaseHandler
         
         command = db.CreateCommand();
 
+        LoadSchemas();
         CreateTables();
+        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
+        command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.SESSION].InsertRow(new List<string>() { "1" });
+        command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.SESSION_NOTE].InsertRow(new List<string>() { "1", "Test note." });
+        command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.TAG].InsertRow(new List<string>() { "1", "Tag Test" });
+        command.ExecuteNonQuery();
         db.Close();
     }
 
     private void CreateTables()
     {
-        LoadSchemas();
         foreach (ITable schema in schemas)
         {
             command.CommandText = schema.CreateTable();
             command.ExecuteNonQuery();
         }
-
     }
 
     private void LoadSchemas()

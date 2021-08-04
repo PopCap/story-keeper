@@ -1,6 +1,5 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Tag : ITable
 {
@@ -13,11 +12,23 @@ public class Tag : ITable
 	public string CreateTable()
 	{
 		return "CREATE TABLE IF NOT EXISTS tag (" +
-			   "id INT PRIMARY KEY ASC," +
+			   "id INTEGER PRIMARY KEY," +
 			   "sess_note_id INT," +
 			   "name TEXT," +
 			   "FOREIGN KEY(sess_note_id) REFERENCES session_note(id)" +
 			   ");";
+	}
+
+	public string InsertRow(List<string> values)
+	{
+		if (values == null || values.Count != 2) return null;
+		else
+		{
+			return string.Format("INSERT INTO tag(sess_note_id, name) VALUES ('{0}', '{1}');",
+				Int32.Parse(values[0]),
+				values[1]
+				);
+		}
 	}
 
 	public override string ToString()

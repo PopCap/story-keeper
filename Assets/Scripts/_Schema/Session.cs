@@ -1,4 +1,7 @@
 
+using System;
+using System.Collections.Generic;
+
 public class Session : ITable
 {
 	public int id { get; set; }
@@ -10,11 +13,23 @@ public class Session : ITable
 	public string CreateTable()
 	{
 		return "CREATE TABLE IF NOT EXISTS session (" +
-			   "id INT PRIMARY KEY ASC," +
+			   "id INTEGER PRIMARY KEY," +
 			   "camp_id INT," +
 			   "session_date CURRENT_DATE," +
 			   "FOREIGN KEY(camp_id) REFERENCES campaign(id)" +
 			   ");";
+	}
+
+	public string InsertRow(List<string> values)
+	{
+		if (values == null || values.Count != 1) return null;
+		else
+		{
+			return string.Format("INSERT INTO session(camp_id, session_date) VALUES ('{0}', {1});",
+                Int32.Parse(values[0]),
+				"datetime('now', 'localtime')"
+				);
+		}
 	}
 
 	public override string ToString()
