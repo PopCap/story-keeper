@@ -53,6 +53,12 @@ public class DatabaseHandler
                 command.ExecuteNonQuery();*/
         command.CommandText = schemas[(int)Table.CAMPAIGN].UpdateRow(1, new List<string>() { "Terra", "New DM" });
         command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Blabla", "Bob" });
+        command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "DontDelete", "Terry" });
+        command.ExecuteNonQuery();
+        command.CommandText = schemas[(int)Table.CAMPAIGN].DeleteRow(2);
+        command.ExecuteNonQuery();
         db.Close();
     }
 

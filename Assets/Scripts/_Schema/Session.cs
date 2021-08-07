@@ -20,6 +20,11 @@ public class Session : ITable
 			   ");";
 	}
 
+	public string DeleteRow(int id)
+	{
+		return "";
+	}
+
 	public string InsertRow(List<string> values)
 	{
 		if (values == null || values.Count != 1) return null;
@@ -32,9 +37,10 @@ public class Session : ITable
 		}
 	}
 
+	// shouldn't update the campaign it's linked to
 	public string UpdateRow(int id, List<string> values)
 	{
-		return string.Format("UPDATE campaign SET name = '{0}' dm = '{1}' WHERE id = {2};",
+		return string.Format("UPDATE session SET name = '{0}' dm = '{1}' WHERE id = {2};",
 			values[0],
 			values[1],
 			id);

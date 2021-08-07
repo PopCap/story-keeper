@@ -23,6 +23,11 @@ public class SessionNote : ITable
 			   ");";
 	}
 
+	public string DeleteRow(int id)
+	{
+		return "";
+	}
+
 	public string InsertRow(List<string> values)
     {
 		if (values == null || values.Count != 2) return null;

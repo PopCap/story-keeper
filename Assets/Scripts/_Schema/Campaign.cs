@@ -20,6 +20,12 @@ public class Campaign : ITable
 			   ");";
     }
 
+	public string DeleteRow(int id)
+    {
+		return string.Format("DELETE FROM campaign WHERE id = {0};",
+			id);
+    }
+
 	public string InsertRow(List<string> values)
     {
 		if (values == null || values.Count != 2) return null;
