@@ -31,6 +31,14 @@ public class Tag : ITable
 		}
 	}
 
+	public string UpdateRow(int id, List<string> values)
+	{
+		return string.Format("UPDATE campaign SET name = '{0}' dm = '{1}' WHERE id = {2};",
+			values[0],
+			values[1],
+			id);
+	}
+
 	public override string ToString()
 	{
 		return string.Format("[Tag: id={0}, sess_note_id={1},  name={2}]", id, sessionNoteId, name);

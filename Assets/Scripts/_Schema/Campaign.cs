@@ -33,6 +33,15 @@ public class Campaign : ITable
         }
     }
 
+	// shouldn't change campaign's start date
+	public string UpdateRow(int id, List<string> values)
+    {
+		return string.Format("UPDATE campaign SET name = '{0}', dm = '{1}' WHERE id = {2};",
+			values[0],
+			values[1],
+			id);
+    }
+
     public override string ToString()
 	{
 		return string.Format("[Campaign: id={0}, name={1},  dm={2}, start_date={3}]", id, name, dm, startDate);

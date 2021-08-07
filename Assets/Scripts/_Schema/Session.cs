@@ -32,6 +32,14 @@ public class Session : ITable
 		}
 	}
 
+	public string UpdateRow(int id, List<string> values)
+	{
+		return string.Format("UPDATE campaign SET name = '{0}' dm = '{1}' WHERE id = {2};",
+			values[0],
+			values[1],
+			id);
+	}
+
 	public override string ToString()
 	{
 		return string.Format("[Session: id={0}, camp_id={1},  session_date={2}]", id, campId, sessionDate);

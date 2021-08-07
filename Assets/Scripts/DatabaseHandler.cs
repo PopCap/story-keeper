@@ -43,13 +43,15 @@ public class DatabaseHandler
 
         LoadSchemas();
         CreateTables();
-        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.SESSION].InsertRow(new List<string>() { "1" });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.SESSION_NOTE].InsertRow(new List<string>() { "1", "Test note." });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.TAG].InsertRow(new List<string>() { "1", "Tag Test" });
+        /*        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
+                command.ExecuteNonQuery();
+                command.CommandText = schemas[(int)Table.SESSION].InsertRow(new List<string>() { "1" });
+                command.ExecuteNonQuery();
+                command.CommandText = schemas[(int)Table.SESSION_NOTE].InsertRow(new List<string>() { "1", "Test note." });
+                command.ExecuteNonQuery();
+                command.CommandText = schemas[(int)Table.TAG].InsertRow(new List<string>() { "1", "Tag Test" });
+                command.ExecuteNonQuery();*/
+        command.CommandText = schemas[(int)Table.CAMPAIGN].UpdateRow(1, new List<string>() { "Terra", "New DM" });
         command.ExecuteNonQuery();
         db.Close();
     }
