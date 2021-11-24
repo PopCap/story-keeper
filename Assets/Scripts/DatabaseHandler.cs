@@ -6,9 +6,13 @@ using System.Collections.Generic;
 
 /**
  * This class handles the generation of our tables, as well as our queries and commands.
+ * Singleton and thread safe.
  */
-public class DatabaseHandler
+public sealed class DatabaseHandler
 {
+    private static DatabaseHandler instance = null;
+    private static readonly object padlock = new object();
+
     private List<ITable> schemas;
     private SqliteConnection db;
     private SqliteCommand command;
@@ -26,23 +30,50 @@ public class DatabaseHandler
         TAG
     }
 
-    public DatabaseHandler()
+    private DatabaseHandler() {}
+
+    public static DatabaseHandler Instance
     {
+        get
+        {
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new DatabaseHandler();
+                    instance.InitializeDatabase();
+                    Debug.Log("Database Handler instanced and Initialized");
+                }
+                return instance;
+            }
+        }
+    }
+
+    private void InitializeDatabase()
+    {
+        // ex. C:\Users\<user>\AppData\LocalLow\DefaultCompany\Story Keeper
         databasePath = "Data Source=" + Application.persistentDataPath + "/StoryKeeper.sqlite";
 
         try
         {
             db = new SqliteConnection(databasePath);
             db.Open();
-        } catch (System.Exception exc)
+        }
+        catch (System.Exception exc)
         {
             Debug.Log(exc);
         }
-        
+
         command = db.CreateCommand();
 
         LoadSchemas();
         CreateTables();
+
+        DoTheThings();
+    }
+
+    public void DoTheThings()
+    {
         /*        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
                 command.ExecuteNonQuery();
                 command.CommandText = schemas[(int)Table.SESSION].InsertRow(new List<string>() { "1" });
@@ -59,7 +90,6 @@ public class DatabaseHandler
         command.ExecuteNonQuery();
         command.CommandText = schemas[(int)Table.CAMPAIGN].DeleteRow(2);
         command.ExecuteNonQuery();
-        db.Close();
     }
 
     private void CreateTables()
