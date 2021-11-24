@@ -51,7 +51,7 @@ public sealed class DatabaseHandler
 
     private void InitializeDatabase()
     {
-        // ex. C:\Users\<user>\AppData\LocalLow\DefaultCompany\Story Keeper
+        // ex. C:\Users\<user>\AppData\LocalLow\DefaultCompany\Story Keeper\StoryKeeper.sqlite
         databasePath = "Data Source=" + Application.persistentDataPath + "/StoryKeeper.sqlite";
 
         try

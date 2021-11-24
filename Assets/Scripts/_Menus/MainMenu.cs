@@ -5,14 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
+    StoryKeeper SK;
+
+    void Awake()
+    {
+        SK = StoryKeeper.Instance;
+    }
+
+    void Start()
+    {
+    }
+
+    public void HandleOnStateChange()
+    {
+    }
+
     public void StartNewCampaign()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OpenCampaign()
     {
-
     }
 
     public void QuitApplication()
