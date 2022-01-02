@@ -10,9 +10,11 @@ using UnityEngine.SceneManagement;
 public class StoryKeeper : MonoBehaviour
 {
 
-    public static StoryKeeper Instance;
+    public static StoryKeeper instance;
 
     private DatabaseHandler databaseHandler { get; set; }
+
+    private StateMachine stateMachine { get; set; }
 
     protected StoryKeeper()
     {
@@ -20,7 +22,7 @@ public class StoryKeeper : MonoBehaviour
 
     public void OnApplicationQuit()
     {
-        Instance = null;
+        instance = null;
     }
 
     void Awake()
@@ -32,14 +34,15 @@ public class StoryKeeper : MonoBehaviour
 
     private void InstanceStoryKeeper()
     {
-        if (Instance == null)
+        if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            Instance = this;
+            instance = this;
             databaseHandler = DatabaseHandler.Instance;
+            stateMachine = StateMachine.Instance;
             Debug.Log("Story Keeper Instance Created");
         }
-        else if (Instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
             Debug.Log("Incorrect Story Keeper Instance Destroyed");

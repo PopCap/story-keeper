@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
-        SK = StoryKeeper.Instance;
+        SK = StoryKeeper.instance;
     }
 
     void Start()

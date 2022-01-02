@@ -2,17 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine
 {
-    // Start is called before the first frame update
-    void Start()
+    private static StateMachine instance = null;
+    private static readonly object padlock = new object();
+
+    private State state { get; set; }
+
+    private StateMachine() { }
+
+    public static StateMachine Instance
     {
-        
+        get
+        {
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new StateMachine();
+                    instance.InitializeStateMachine();
+                    Debug.Log("State machine instanced and Initialized\nCurrent State: " + instance.state.name()) ;
+                }
+                return instance;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitializeStateMachine()
     {
-        
+        state = new TestState();
     }
 }
