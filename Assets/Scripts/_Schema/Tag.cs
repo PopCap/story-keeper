@@ -1,7 +1,8 @@
+using Mono.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 
-public class Tag : ITable
+public class Tag : AbstractTable
 {
 	public int id { get; set; }
 
@@ -9,7 +10,22 @@ public class Tag : ITable
 
 	public string name { get; set; }
 
-	public string CreateTable()
+	public override List<AbstractTable> BuildQueryResults(SqliteDataReader reader)
+	{
+		List<AbstractTable> results = new List<AbstractTable>();
+		while (reader.Read())
+		{
+			results.Add(new Tag
+			{
+				id = int.Parse(reader["id"].ToString()),
+				sessionNoteId = int.Parse(reader["sess_note_id"].ToString()),
+				name = reader["name"].ToString()
+			});
+		}
+		return results;
+	}
+
+	public override string CreateTable()
 	{
 		return "CREATE TABLE IF NOT EXISTS tag (" +
 			   "id INTEGER PRIMARY KEY," +
@@ -19,12 +35,12 @@ public class Tag : ITable
 			   ");";
 	}
 
-	public string DeleteRow(int id)
+	public override string DeleteRow(int id)
 	{
 		return "";
 	}
 
-	public string InsertRow(List<string> values)
+	public override string InsertRow(List<string> values)
 	{
 		if (values == null || values.Count != 2) return null;
 		else
@@ -36,7 +52,7 @@ public class Tag : ITable
 		}
 	}
 
-	public string UpdateRow(int id, List<string> values)
+	public override string UpdateRow(int id, List<string> values)
 	{
 		return string.Format("UPDATE campaign SET name = '{0}' dm = '{1}' WHERE id = {2};",
 			values[0],

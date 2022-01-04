@@ -72,6 +72,43 @@ public sealed class DatabaseHandler
         DoTheThings();
     }
 
+    public void CloseDatabase()
+    {
+        db.Close();
+    }
+
+    public int ExecuteNonQuery(string commandText)
+    {
+        if (string.IsNullOrEmpty(commandText))
+        {
+            Debug.Log("Command text is null or empty");
+            return -1;
+        }
+
+        command.CommandText = commandText;
+        return command.ExecuteNonQuery();
+    }
+
+    public List<AbstractTable> ExecuteQuery(AbstractTable schema, string queryText)
+    {
+        if (schema == null)
+        {
+            Debug.Log("Null schema passed for query type");
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(queryText))
+        {
+            Debug.Log("Query text is null or empty");
+            return null;
+        }
+
+        command.CommandText = queryText;
+        SqliteDataReader reader = command.ExecuteReader();
+        List<AbstractTable> queryResults = schema.BuildQueryResults(reader);
+        return queryResults;
+    }
+
     public void DoTheThings()
     {
         /*        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
@@ -109,5 +146,4 @@ public sealed class DatabaseHandler
         schemas.Add(new SessionNote());
         schemas.Add(new Tag());
     }
-
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-
-public class Campaign : ITable
+using Mono.Data.Sqlite;
+public class Campaign : AbstractTable
 {
     public int id { get; set; }
 
@@ -10,7 +10,23 @@ public class Campaign : ITable
 
 	public string startDate { get; set; }
 
-    public string CreateTable()
+	public override List<AbstractTable> BuildQueryResults(SqliteDataReader reader)
+    {
+		List<AbstractTable> results = new List<AbstractTable>();
+		while (reader.Read())
+		{
+			results.Add(new Campaign
+            {
+				id = int.Parse(reader["id"].ToString()),
+				name = reader["name"].ToString(),
+				dm = reader["dm"].ToString(),
+				startDate = reader["start_date"].ToString()
+			});
+		}
+		return results;
+    }
+
+    public override string CreateTable()
     {
 		return "CREATE TABLE IF NOT EXISTS campaign (" +
 			   "id INTEGER PRIMARY KEY," +
@@ -20,13 +36,13 @@ public class Campaign : ITable
 			   ");";
     }
 
-	public string DeleteRow(int id)
+	public override string DeleteRow(int id)
     {
 		return string.Format("DELETE FROM campaign WHERE id = {0};",
 			id);
     }
 
-	public string InsertRow(List<string> values)
+	public override string InsertRow(List<string> values)
     {
 		if (values == null || values.Count != 2) return null;
 		else
@@ -40,7 +56,7 @@ public class Campaign : ITable
     }
 
 	// shouldn't change campaign's start date
-	public string UpdateRow(int id, List<string> values)
+	public override string UpdateRow(int id, List<string> values)
     {
 		return string.Format("UPDATE campaign SET name = '{0}', dm = '{1}' WHERE id = {2};",
 			values[0],

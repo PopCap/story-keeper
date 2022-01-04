@@ -1,8 +1,8 @@
-
+using Mono.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 
-public class Session : ITable
+public class Session : AbstractTable
 {
 	public int id { get; set; }
 
@@ -10,7 +10,22 @@ public class Session : ITable
 
 	public string sessionDate { get; set; }
 
-	public string CreateTable()
+	public override List<AbstractTable> BuildQueryResults(SqliteDataReader reader)
+	{
+		List<AbstractTable> results = new List<AbstractTable>();
+		while (reader.Read())
+		{
+			results.Add(new Session
+			{
+				id = int.Parse(reader["id"].ToString()),
+				campId = int.Parse(reader["camp_id"].ToString()),
+				sessionDate = reader["start_date"].ToString()
+			});
+		}
+		return results;
+	}
+
+	public override string CreateTable()
 	{
 		return "CREATE TABLE IF NOT EXISTS session (" +
 			   "id INTEGER PRIMARY KEY," +
@@ -20,12 +35,12 @@ public class Session : ITable
 			   ");";
 	}
 
-	public string DeleteRow(int id)
+	public override string DeleteRow(int id)
 	{
 		return "";
 	}
 
-	public string InsertRow(List<string> values)
+	public override string InsertRow(List<string> values)
 	{
 		if (values == null || values.Count != 1) return null;
 		else
@@ -38,7 +53,7 @@ public class Session : ITable
 	}
 
 	// shouldn't update the campaign it's linked to
-	public string UpdateRow(int id, List<string> values)
+	public override string UpdateRow(int id, List<string> values)
 	{
 		return string.Format("UPDATE session SET name = '{0}' dm = '{1}' WHERE id = {2};",
 			values[0],
