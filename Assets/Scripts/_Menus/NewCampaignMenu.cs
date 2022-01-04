@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewCampaignMenu : MonoBehaviour
+public class NewCampaignMenu : AbstractMenu
 {
-    StoryKeeper SK;
-
-    void Awake()
+    public bool StartNewCampaign()
     {
-        SK = StoryKeeper.instance;
-    }
-
-    void Start()
-    {
+        DatabaseHandler dbHandler= SK.databaseHandler;
+        return true;
     }
 }
