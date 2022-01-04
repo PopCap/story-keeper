@@ -12,9 +12,9 @@ public class StoryKeeper : MonoBehaviour
 
     public static StoryKeeper instance;
 
-    private DatabaseHandler databaseHandler { get; set; }
+    public DatabaseHandler databaseHandler { get; set; }
 
-    private StateMachine stateMachine { get; set; }
+    public StateMachine stateMachine { get; set; }
 
     protected StoryKeeper()
     {
@@ -22,6 +22,7 @@ public class StoryKeeper : MonoBehaviour
 
     public void OnApplicationQuit()
     {
+        databaseHandler.CloseDatabase();
         instance = null;
     }
 
