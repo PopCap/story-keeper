@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class AbstractMenu : MonoBehaviour
@@ -11,12 +12,57 @@ public abstract class AbstractMenu : MonoBehaviour
         SK = StoryKeeper.instance;
     }
 
-    public bool ValidateInputNotEmpty(string input)
+    protected bool ValidateObjectsNotNull(GameObject[] objects)
     {
-        if (string.IsNullOrWhiteSpace(input))
+        bool isValid = false;
+        // index is used because gameObject wont have a name for debug if null
+        int index = 0;
+
+        foreach (GameObject gameObject in objects)
         {
-            return false;
+            if (gameObject == null)
+            {
+                Debug.Log("GameObject at index " + index + " is null");
+                return isValid;
+            }
+            index++;
         }
-        return true;
+
+        isValid = true;
+        return isValid;
+    }
+    protected bool ValidateInputsNotEmpty(TMP_InputField[] inputs)
+    {
+        bool isValid = false;
+        // index is used because input wont have a name for debug if null
+        int index = 0;
+
+        foreach(TMP_InputField input in inputs)
+        {
+            if (input == null)
+            {
+                Debug.Log("InputField at index " + index + " is null");
+                return isValid;
+            }
+            index++;
+        }
+
+        foreach(TMP_InputField input in inputs)
+        {
+            if (string.IsNullOrEmpty(input.text))
+            {
+                Debug.Log("InputField: " + input.name + " is null or empty");
+                return isValid;
+            }
+
+            if (string.IsNullOrWhiteSpace(input.text))
+            {
+                Debug.Log("InputField: " + input.name + " is null or whitespace");
+                return isValid;
+            }
+        }
+
+        isValid = true;
+        return isValid;
     }
 }

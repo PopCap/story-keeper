@@ -22,7 +22,7 @@ public class StoryKeeper : MonoBehaviour
 
     public void OnApplicationQuit()
     {
-        databaseHandler.CloseDatabase();
+        instance.databaseHandler.CloseDatabase();
         instance = null;
     }
 
