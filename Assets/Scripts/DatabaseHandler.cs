@@ -68,8 +68,6 @@ public sealed class DatabaseHandler
 
         LoadSchemas();
         CreateTables();
-
-        DoTheThings();
     }
 
     public void CloseDatabase()
@@ -106,27 +104,12 @@ public sealed class DatabaseHandler
         command.CommandText = queryText;
         SqliteDataReader reader = command.ExecuteReader();
         List<AbstractTable> queryResults = schema.BuildQueryResults(reader);
+        Debug.Log("Returning query results of: " + queryText);
+        foreach (AbstractTable result in queryResults)
+        {
+            Debug.Log(result.ToString());
+        }
         return queryResults;
-    }
-
-    public void DoTheThings()
-    {
-        /*        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Terra", "Dylan" });
-                command.ExecuteNonQuery();
-                command.CommandText = schemas[(int)Table.SESSION].InsertRow(new List<string>() { "1" });
-                command.ExecuteNonQuery();
-                command.CommandText = schemas[(int)Table.SESSION_NOTE].InsertRow(new List<string>() { "1", "Test note." });
-                command.ExecuteNonQuery();
-                command.CommandText = schemas[(int)Table.TAG].InsertRow(new List<string>() { "1", "Tag Test" });
-                command.ExecuteNonQuery();*/
-        command.CommandText = schemas[(int)Table.CAMPAIGN].UpdateRow(1, new List<string>() { "Terra", "New DM" });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "Blabla", "Bob" });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.CAMPAIGN].InsertRow(new List<string>() { "DontDelete", "Terry" });
-        command.ExecuteNonQuery();
-        command.CommandText = schemas[(int)Table.CAMPAIGN].DeleteRow(2);
-        command.ExecuteNonQuery();
     }
 
     private void CreateTables()

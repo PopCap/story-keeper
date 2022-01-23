@@ -30,7 +30,6 @@ public class StoryKeeper : MonoBehaviour
     {
         // databaseHandler instantiation handled in awake because persistent data path not useable in constructor
         InstanceStoryKeeper();
-        databaseHandler.DoTheThings();
     }
 
     private void InstanceStoryKeeper()

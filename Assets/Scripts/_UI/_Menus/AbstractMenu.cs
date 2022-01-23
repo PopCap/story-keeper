@@ -65,4 +65,15 @@ public abstract class AbstractMenu : MonoBehaviour
         isValid = true;
         return isValid;
     }
+
+    public void OnClickTransition(GameObject targetTransition)
+    {
+        targetTransition.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    public virtual void ConditionalOnClickTransition(GameObject targetTransition)
+    {
+        OnClickTransition(targetTransition);
+    }
 }
